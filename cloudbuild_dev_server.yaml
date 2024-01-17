@@ -23,7 +23,13 @@ steps:
       --platform=managed \
       --allow-unauthenticated \
       --port=5174 \
-      --set-env-vars=ULTRA_SECRET_KEY=${_ULTRA_SECRET_KEY},DB_HOST=${_DB_HOST},DB_USER=${_DB_USER},DB_DATABASE=${_DB_DATABASE},DB_PORT=${_DB_PORT},DB_PASSWORD=${_DB_PASSWORD}
+      --set-env-vars=
+      ULTRA_SECRET_KEY=${_ULTRA_SECRET_KEY},\
+      DB_HOST=${_DB_HOST},\
+      DB_USER=${_DB_USER},\
+      DB_DATABASE=${_DB_DATABASE},\
+      DB_PORT=${_DB_PORT},\
+      DB_PASSWORD=${_DB_PASSWORD}
   
   secretEnv:
     - '_ULTRA_SECRET_KEY'
