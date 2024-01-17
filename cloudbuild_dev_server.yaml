@@ -12,48 +12,49 @@ steps:
   args: ['push', 'europe-west1-docker.pkg.dev/desafio-tripulaciones-2/repodesafio-dev/server-dev:1.0']
 
 # Despliega la imagen del contenedor en Cloud Run
+# Deploy container image to Cloud Run
 - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
   entrypoint: bash
-  args:
-    - "-c"
-    - |
-      gcloud run deploy react-nodejs-cloudbuilds-server-dev \
-      --image=europe-west1-docker.pkg.dev/desafio-tripulaciones-2/repodesafio-dev/server-dev:1.0 \
-      --region=europe-west1 \
-      --platform=managed \
-      --allow-unauthenticated \
-      --port=5174 \
-      --set-env-vars=
-      ULTRA_SECRET_KEY=${_ULTRA_SECRET_KEY},\
-      DB_HOST=${_DB_HOST},\
-      DB_USER=${_DB_USER},\
-      DB_DATABASE=${_DB_DATABASE},\
-      DB_PORT=${_DB_PORT},\
-      DB_PASSWORD=${_DB_PASSWORD}
-  
-  secretEnv:
-    - '_ULTRA_SECRET_KEY'
-    - '_DB_HOST'
-    - '_DB_USER'
-    - '_DB_DATABASE'
-    - '_DB_PORT'
-    - '_DB_PASSWORD'
+  args: [
+    "-c",
+    "gcloud run deploy server-app-dev
+    --image=gcr.io/$PROJECT_ID/server-app-dev:$COMMIT_SHA 
+    --region=europe-west1 
+    --platform=managed 
+    --allow-unauthenticated 
+    --port=3000
+    --update-env-vars
+      ULTRA_SECRET_KEY=$$ULTRA_SECRET_KEY,\
+      DB_HOST=$$DB_HOST,\
+      DB_USER=$$DB_USER,\
+      DB_DATABASE=$$DB_DATABASE,\
+      DB_PORT=$$DB_PORT,\
+      DB_PASSWORD=$$DB_PASSWORD"
+  ]
 
-# Especifica la imagen que se construyó y se subió a Container Registry
+  secretEnv: [
+    'ULTRA_SECRET_KEY',
+    'DB_HOST',
+    'DB_USER',
+    'DB_DATABASE',
+    'DB_PORT',
+    'DB_PASSWORD'
+  ]
+
 images:
-- 'europe-west1-docker.pkg.dev/desafio-tripulaciones-2/repodesafio-dev/server-dev:1.0'
+- 'gcr.io/$PROJECT_ID/server-app-dev:$COMMIT_SHA'
 
 availableSecrets:
   secretManager:
-    - versionName: projects/214133582880/secrets/ULTRA_SECRET_KEY/versions/latest
-      env: '_ULTRA_SECRET_KEY'
-    - versionName: projects/214133582880/secrets/DB_HOST/versions/latest
-      env: '_DB_HOST'
-    - versionName: projects/214133582880/secrets/DB_USER/versions/latest
-      env: '_DB_USER'
-    - versionName: projects/214133582880/secrets/DB_DATABASE/versions/latest
-      env: '_DB_DATABASE'
-    - versionName: projects/214133582880/secrets/DB_PORT/versions/latest
-      env: '_DB_PORT'
-    - versionName: projects/214133582880/secrets/DB_PASSWORD/versions/latest
-      env: '_DB_PASSWORD'
+    - versionName: projects/626688550366/secrets/ULTRA_SECRET_KEY/versions/latest
+      env: 'ULTRA_SECRET_KEY'
+    - versionName: projects/626688550366/secrets/DB_HOST/versions/latest
+      env: 'DB_HOST'
+    - versionName: projects/626688550366/secrets/DB_USER/versions/latest
+      env: 'DB_USER'
+    - versionName: projects/626688550366/secrets/DB_DATABASE/versions/latest
+      env: 'DB_DATABASE'
+    - versionName: projects/626688550366/secrets/DB_PORT/versions/latest
+      env: 'DB_PORT'
+    - versionName: projects/626688550366/secrets/DB_PASSWORD/versions/latest
+      env: 'DB_PASSWORD'
