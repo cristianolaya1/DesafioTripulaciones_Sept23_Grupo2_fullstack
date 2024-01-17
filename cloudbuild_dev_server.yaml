@@ -1,0 +1,53 @@
+steps:
+# Configura el proyecto de Google Cloud
+- name: 'gcr.io/cloud-builders/gcloud'
+  args: ['config', 'set', 'project', 'desafio-tripulaciones-2']
+
+# Construye la imagen del contenedor
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build', '-t', 'europe-west1-docker.pkg.dev/desafio-tripulaciones-2/repodesafio-dev/client-dev:1.0', '-f', 'Dockerfile', '.']
+
+# Sube la imagen del contenedor a Container Registry
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'europe-west1-docker.pkg.dev/desafio-tripulaciones-2/repodesafio-dev/client-dev:1.0']
+
+# Despliega la imagen del contenedor en Cloud Run
+- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+  entrypoint: bash
+  args:
+    - "-c"
+    - |
+      gcloud run deploy react-nodejs-cloudbuilds-server-dev \
+      --image=europe-west1-docker.pkg.dev/desafio-tripulaciones-2/repodesafio-dev/client-dev:1.0 \
+      --region=europe-west1 \
+      --platform=managed \
+      --allow-unauthenticated \
+      --port=5000 \
+      --set-env-vars=ULTRA_SECRET_KEY=${_ULTRA_SECRET_KEY},DB_HOST=${_DB_HOST},DB_USER=${_DB_USER},DB_DATABASE=${_DB_DATABASE},DB_PORT=${_DB_PORT},DB_PASSWORD=${_DB_PASSWORD}
+  
+  secretEnv:
+    - '_ULTRA_SECRET_KEY'
+    - '_DB_HOST'
+    - '_DB_USER'
+    - '_DB_DATABASE'
+    - '_DB_PORT'
+    - '_DB_PASSWORD'
+
+# Especifica la imagen que se construyó y se subió a Container Registry
+images:
+- 'europe-west1-docker.pkg.dev/desafio-tripulaciones-2/repodesafio-dev/client-dev:1.0'
+
+availableSecrets:
+  secretManager:
+    - versionName: projects/214133582880/secrets/ULTRA_SECRET_KEY/versions/latest
+      env: '_ULTRA_SECRET_KEY'
+    - versionName: projects/214133582880/secrets/DB_HOST/versions/latest
+      env: '_DB_HOST'
+    - versionName: projects/214133582880/secrets/DB_USER/versions/latest
+      env: '_DB_USER'
+    - versionName: projects/214133582880/secrets/DB_DATABASE/versions/latest
+      env: '_DB_DATABASE'
+    - versionName: projects/214133582880/secrets/DB_PORT/versions/latest
+      env: '_DB_PORT'
+    - versionName: projects/214133582880/secrets/DB_PASSWORD/versions/latest
+      env: '_DB_PASSWORD'
