@@ -5,11 +5,11 @@ steps:
 
 # Construye la imagen del contenedor
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['build', '-t', 'europe-west1-docker.pkg.dev/desafio-tripulaciones-2/repodesafio-dev/client-dev:1.0', '-f', 'Dockerfile', '.']
+  args: ['build', '-t', 'europe-west1-docker.pkg.dev/desafio-tripulaciones-2/repodesafio-dev/server-dev:1.0', '-f', 'Dockerfile', '.']
 
 # Sube la imagen del contenedor a Container Registry
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['push', 'europe-west1-docker.pkg.dev/desafio-tripulaciones-2/repodesafio-dev/client-dev:1.0']
+  args: ['push', 'europe-west1-docker.pkg.dev/desafio-tripulaciones-2/repodesafio-dev/server-dev:1.0']
 
 # Despliega la imagen del contenedor en Cloud Run
 - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
@@ -18,7 +18,7 @@ steps:
     - "-c"
     - |
       gcloud run deploy react-nodejs-cloudbuilds-server-dev \
-      --image=europe-west1-docker.pkg.dev/desafio-tripulaciones-2/repodesafio-dev/client-dev:1.0 \
+      --image=europe-west1-docker.pkg.dev/desafio-tripulaciones-2/repodesafio-dev/server-dev:1.0 \
       --region=europe-west1 \
       --platform=managed \
       --allow-unauthenticated \
@@ -35,7 +35,7 @@ steps:
 
 # Especifica la imagen que se construyó y se subió a Container Registry
 images:
-- 'europe-west1-docker.pkg.dev/desafio-tripulaciones-2/repodesafio-dev/client-dev:1.0'
+- 'europe-west1-docker.pkg.dev/desafio-tripulaciones-2/repodesafio-dev/server-dev:1.0'
 
 availableSecrets:
   secretManager:
