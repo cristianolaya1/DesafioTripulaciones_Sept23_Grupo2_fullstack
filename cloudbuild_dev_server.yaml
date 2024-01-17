@@ -18,11 +18,11 @@ steps:
   args: [
     "-c",
     "gcloud run deploy react-nodejs-cloudbuilds-server-dev
-    --image=gcr.io/$PROJECT_ID/server-dev:$COMMIT_SHA 
+    --image=europe-west1-docker.pkg.dev/desafio-tripulaciones-2/repodesafio-dev/server-dev:1.0 
     --region=europe-west1 
     --platform=managed 
     --allow-unauthenticated 
-    --port=3000
+    --port=5174
     --update-env-vars
       ULTRA_SECRET_KEY=$$ULTRA_SECRET_KEY,\
       DB_HOST=$$DB_HOST,\
@@ -42,7 +42,7 @@ steps:
   ]
 
 images:
-- 'gcr.io/$PROJECT_ID/server-dev:$COMMIT_SHA'
+- 'europe-west1-docker.pkg.dev/desafio-tripulaciones-2/repodesafio-dev/server-dev:1.0'
 
 availableSecrets:
   secretManager:
