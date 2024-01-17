@@ -8,7 +8,7 @@ var cors = require("cors");
 // const morgan = require("./middlewares/morgan");
 // const helmet = require('helmet');
 
-const secret = kvdjsdkhjkn;
+const secret = process.env.ULTRA_SECRET_KEY || kvdjsdkhjkn;
 
 
 app.use(express.json());
