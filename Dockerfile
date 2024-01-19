@@ -14,4 +14,4 @@ RUN npm install
 EXPOSE 5000
 
 #Iniciar el cliente
-CMD ["sh", "-c", "npm run server"]
+CMD ["sh", "-c", "npm run dev"]
