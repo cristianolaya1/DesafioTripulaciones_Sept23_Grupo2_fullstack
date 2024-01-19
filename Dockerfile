@@ -14,4 +14,4 @@ RUN npm install
 EXPOSE 3000
 
 #Iniciar el cliente
-CMD ["sh", "-c", "npm run dev -- --port 5000 --host 0.0.0.0"]
+CMD ["sh", "-c", "npm run server"]

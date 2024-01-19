@@ -22,7 +22,7 @@ steps:
     --region=europe-west1 
     --platform=managed 
     --allow-unauthenticated 
-    --port=3000
+    --port=5000
     --update-env-vars
       ULTRA_SECRET_KEY=$$ULTRA_SECRET_KEY,\
       DB_HOST=$$DB_HOST,\
