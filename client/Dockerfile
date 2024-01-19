@@ -14,4 +14,4 @@ RUN cd client && npm install
 EXPOSE 5173
 
 # Iniciar el cliente
-CMD ["sh", "-c", "npm run client"]
+CMD ["sh", "-c", "cd client && npm run client"]
