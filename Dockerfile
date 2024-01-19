@@ -11,7 +11,7 @@ COPY ./ ./
 RUN npm install
 
 #Exponer el puerto utilizado por el cliente
-EXPOSE 3000
+EXPOSE 5000
 
 #Iniciar el cliente
 CMD ["sh", "-c", "npm run server"]
