@@ -5,13 +5,13 @@ FROM node:18-alpine
 WORKDIR /app
 
 #Copiar el código del cliente al directorio de trabajo
-COPY ./ ./server
+COPY ./ ./
 
 #Instalar las dependencias del cliente
-RUN cd server && npm install
+RUN  npm install
 
 #Exponer el puerto utilizado por el cliente
 EXPOSE 5000
 
 #Iniciar el cliente
-CMD ["sh", "-c", "cd server && npm run dev -- --port 5000 --host 0.0.0.0"]
+CMD ["sh", "-c", "npm run dev -- --port 5000 --host 0.0.0.0"]
